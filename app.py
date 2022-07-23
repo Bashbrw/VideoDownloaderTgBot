@@ -19,8 +19,8 @@ global videosdownloaded
 global defchannel
 global defgroup
 
-defchannel = 't.me/prismabash'
-defgroup = 't.me/skynetdevbots'
+defchannel = 't.me/<yourchannelusername>' # default channel, remove @
+defgroup = 't.me/<yourgroupusername>' # default group, remove @
 videosdownloaded = 0
 
 
