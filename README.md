@@ -1,12 +1,14 @@
-# VideoDownloader
+## VideoDownloader
 First, install required libraries and frameworks with
 
+'''bash
 pip install -r requirements.txt
+'''
 
 Then setup some environment variables:
-ID = Your TG API id. You can get at my.telegram.org
-HASH = your TG API hash. You can get at my.telegram.org
-TOKEN = Your bot token. You can get at BotFather.
+- ID = Your TG API id. You can get at my.telegram.org
+- HASH = your TG API hash. You can get at my.telegram.org
+- TOKEN = Your bot token. You can get at BotFather.
 
 Edit app.py and setup admin id and modify the code as you like. It is already set up to be hosted at Heroku. If you wanna host in a VPS or other cloud, the current settings wont work. You will need to setup hosting configurations yourself.
 
