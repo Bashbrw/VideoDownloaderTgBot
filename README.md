@@ -1,9 +1,9 @@
 ## VideoDownloader
 First, install required libraries and frameworks with
 
-'''bash
+```bash
 pip install -r requirements.txt
-'''
+´´´
 
 Then setup some environment variables:
 - ID = Your TG API id. You can get at my.telegram.org
