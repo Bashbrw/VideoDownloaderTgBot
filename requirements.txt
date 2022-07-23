@@ -1,0 +1,7 @@
+mutagen==1.45.1
+Pillow==9.1.1
+Pyrogram==2.0.26
+requests==2.22.0
+yt_dlp==2022.5.18
+TgCrypto
+unidecode
