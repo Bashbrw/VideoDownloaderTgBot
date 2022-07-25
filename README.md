@@ -1,5 +1,5 @@
 ## Check out my blog
-You can check it out [here](bashl.pythonanywhere.com)
+You can check it out [here](https://bashl.pythonanywhere.com)
 
 ## VideoDownloader
 First, install required libraries and frameworks with
