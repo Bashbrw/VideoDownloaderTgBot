@@ -1,3 +1,6 @@
+## Check out my blog
+bashl.pythonanywhere.com
+
 ## VideoDownloader
 First, install required libraries and frameworks with
 
