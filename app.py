@@ -29,7 +29,7 @@ clog_text = f''
 
 # time users have to wait between downloads, in seconds
 global time
-time = 120
+time = 0
 
 if time > 60:
     time_text = f'Você deve esperar por {round(time/60)} minuto(s) entre pedidos.'
@@ -71,6 +71,10 @@ regex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w
 with open('users.txt', 'r') as f:
     [users[int(usr.replace('\\n', ''))] = default_conf for usr in f]
     print(f'User database lenght: {len(users)}')
+
+# read time database
+with open('time.txt', 'r') as f:
+    time = int(f.read())
 
 def save_new_user(user_id):
     with open('users.txt', 'a+') as f:
@@ -387,18 +391,22 @@ def admin_broadcast(client, message):
     for user in users.keys():
         app.send_message(user, broad_message)
         counter = counter + 1
+        sleep(5)
         
     app.send_message(admin, f'Mensagem enviada para {counter} de {len(users)} usuários.')
     del counter
 
 
 
-
+# set time between downloads for non-premiums
 @app.on_message(filters.private & filters.command('settime') & filters.chat(admin))
 def settime(client, message):
+    # must be in seconds
     global time
     app.send_message(admin, f'O tempo era: {time}')
     t = int(message.text.replace('/settime', ''))
+    with open('time.txt', 'w') as f:
+        f.write(t)
     time = t
     app.send_message(admin, f'Agora é {time}')
 
@@ -468,7 +476,7 @@ def unban(client, message):
 # get bot metrics
 @app.on_message(filters.private & filters.command('data') & filters.chat(admin))
 def dt(client, message):
-    r = requests.get('https://ytdownloadertgbot.herokuapp.com/')
+    r = requests.get('') # paste a link here
 
     dat = {
         'activeusers': len(users),
@@ -496,8 +504,11 @@ def upd(client, message):
 # update group
 @app.on_message(filters.private & filters.chat(admin) & filters.command('updategp'))
 def updgp(client, message):
+    # format: t.me/groupusername
     global defgroup
     ngp = message.text.replace('/updategp', '').strip()
+    with open('defgroup.txt', 'w') as f:
+        f.write(ngp)
     defgroup = ngp
 
     app.send_message(admin, f'O grupo foi alterado para {defgroup}')
