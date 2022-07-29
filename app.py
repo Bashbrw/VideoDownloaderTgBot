@@ -11,7 +11,7 @@ import requests
 import os
 
 
-admin = 0 # put your telegram id here
+admin = [0] # put your telegram id here
 version = '1.72.0622'
 last_mod = '24/06/2022'
 
@@ -39,17 +39,11 @@ else:
 wmsgtxt = 'O tempo de espera terminou, você pode requisitar novamente.'
 
 
-# automate changelog TODO
-with open("./changelog.txt", 'r') as f:
-    clog = str(f.readlines())
-    clog = clog.replace('[', '').replace(']', '').replace('\\n', '').replace(',', '').replace("'", '')
-    clog_text = clog
-
 # banned users list
 banned_users = []
 with open('banned_users.txt', 'r') as f:
-    for line in f:
-        banned_users.append(int(line.replace('\\n', '')))
+    banned_users = [int(line.replace('\\n', '')) for line in f]
+    #banned_users.append(int(line.replace('\\n', '')))
 
 
 # quality == height of the video
@@ -73,7 +67,18 @@ app = Client('YTDownloaderBot',
 # only match with youtube links
 regex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
 
+# read user database and assign default configs
+with open('users.txt', 'r') as f:
+    [users[int(usr.replace('\\n', ''))] = default_conf for usr in f]
+    print(f'User database lenght: {len(users)}')
 
+def save_new_user(user_id):
+    with open('users.txt', 'a+') as f:
+        f.write(user_id)
+        f.write('\n')
+
+def save_configs(user_id):
+    pass # TODO implement this function
 
 
 # buttons callback query
@@ -313,7 +318,9 @@ def start(client, message):
     if message.chat.id not in user_time:
         user_time[message.chat.id] = True
 
+
     elif message.chat.id not in users:
+        save_new_user(message.chat.id)
         users[message.chat.id] = default_conf
 
     join = InlineKeyboardMarkup(
@@ -337,6 +344,7 @@ def settings(client, message):
         user_time[message.chat.id] = True
 
     elif message.chat.id not in users:
+        save_new_user(message.chat.id)
         users[message.chat.id] = default_conf
 
     btns = InlineKeyboardMarkup(
@@ -360,6 +368,7 @@ def about(client, message):
         user_time[message.chat.id] = True
 
     elif message.chat.id not in users:
+        save_new_user(message.chat.id)
         users[message.chat.id] = default_conf
 
     active_users = len(users)
@@ -451,7 +460,7 @@ def bblock(client, message):
 @app.on_message(filters.private & filters.chat(admin) & filters.command('unban'))
 def unban(client, message):
     pass
-    # TODO
+    # TODO implement this function
 
 
 
@@ -505,6 +514,7 @@ def download(client, message):
         user_time[message.chat.id] = True
 
     elif message.chat.id not in users:
+        save_new_user(message.chat.id)
         users[message.chat.id] = default_conf
     
     which_option = ''
