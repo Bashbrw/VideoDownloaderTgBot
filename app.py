@@ -11,7 +11,7 @@ import requests
 import os
 
 
-admin = [0] # put your telegram id here
+admin = 0 # put your telegram id here
 version = '1.72.0622'
 last_mod = '24/06/2022'
 
@@ -69,7 +69,8 @@ regex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w
 
 # read user database and assign default configs
 with open('users.txt', 'r') as f:
-    [users[int(usr.replace('\\n', ''))] = default_conf for usr in f]
+    for usr in f:
+        users[int(usr.replace('\\n', ''))] = default_conf
     print(f'User database lenght: {len(users)}')
 
 # read time database
